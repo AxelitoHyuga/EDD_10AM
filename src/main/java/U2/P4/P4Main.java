@@ -4,13 +4,28 @@ public class P4Main {
 
     public static void main(String[] args) {
         List list = new List();
-        list.add(10);
-        list.add(100);
-        list.add(20);
-        list.add(200);
-        list.add(30);
-        list.add(300);
 
+        for (int i = 0; i < 10; i++) {
+            list.add((int)(Math.random() * 100));
+        }
+
+        System.out.println(list.toString());
+        System.out.println(list.getSize());
+//        list.empty();
+
+        try {
+            list.addAt(5000, 2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(list.toString());
+        System.out.println(list.getSize());
+
+        try {
+            list.deleteAt(2);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(list.toString());
         System.out.println(list.getSize());
     }
