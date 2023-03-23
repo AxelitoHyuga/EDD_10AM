@@ -12,22 +12,23 @@ public class P4Main {
         System.out.println(list.toString());
         System.out.println(list.getSize());
 //        list.empty();
+//        System.out.println(list.toString());
+//        System.out.println(list.getSize());
 
         try {
             list.addAt(5000, 2);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(list.toString());
-        System.out.println(list.getSize());
-
-        try {
+            System.out.println(list.toString());
+            System.out.println(list.getSize());
             list.deleteAt(2);
+            System.out.println(list.toString());
+            System.out.println(list.getSize());
+
+            System.out.println(String.format("La posición de %s es: %s", 5000, list.findValuePos(5000)));
+            System.out.println(list.toString2());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        System.out.println(list.toString());
-        System.out.println(list.getSize());
+
     }
 
 }

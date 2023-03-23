@@ -1,15 +1,12 @@
-package U2.P4;
+package U2.P5;
 
-public class List {
+public class DoubleLinkedList {
     private Node front;
     private Node back;
-    private int size;
 
-    // Al crear la lista front debe ser igual (La lista esta vacia)
-    public List() {
+    public DoubleLinkedList() {
         front = null;
         back = null;
-        size = 0;
     }
 
     // Agregar un nodo al final de la lista
@@ -23,18 +20,13 @@ public class List {
             front = newNode;
             back = newNode;
         } else {
-//            Node temp = front;
-
-            // O(N):
-//            while (temp.getNext() != null) {
-//                temp = temp.getNext();
-//            }
-
+            // Conectamos el nuevo nodo al final
             back.setNext(newNode);
+            newNode.setPrev(back);
             back = newNode;
         }
 
-        size++;
+//        size++;
     }
 
     // Devuelve los valores de la lista formateados
@@ -57,17 +49,19 @@ public class List {
         return text;
     }
 
-    // O(N*N)
-    public String toString2() throws Exception {
+    // Devuelve los valores de la lista formateados
+    // O(N)
+    public String reverseToString() {
         String text = "[";
-        int pos = size - 1;
+        Node temp = back;
 
-        while (pos >= 0 ) {
-            text += findPos(pos);
-            if (pos != 0) {
+        while (temp != null) {
+            text += temp.getValue();
+            temp = temp.getPrev();
+
+            if (temp != null) {
                 text += ",";
             }
-            pos--;
         }
 
         text += "]";
@@ -75,23 +69,19 @@ public class List {
         return text;
     }
 
-    public int getSize() {
-        return size;
-    }
-
     // Devuelve el tamaño de la lista
     // O(N)
-//    public int getSize() {
-//        Node temp = front;
-//        int count = 0;
-//
-//        while (temp != null) {
-//            count++;
-//            temp = temp.getNext();
-//        }
-//
-//        return count;
-//    }
+    public int getSize() {
+        Node temp = front;
+        int count = 0;
+
+        while (temp != null) {
+            count++;
+            temp = temp.getNext();
+        }
+
+        return count;
+    }
 
     // Devuelve si la lista esta vacia
     // O(1)
@@ -103,13 +93,13 @@ public class List {
     public void empty() {
         front = null;
         back = null;
-        size = 0;
+//        size = 0;
     }
 
     // Agregar un nodo en la posición deseada
     // O(N)
     public void addAt(int value, int pos) throws Exception {
-        int nodeCount = size;
+        int nodeCount = getSize();
 
         // Validad posición
         if ((pos >= 0) && (pos < nodeCount)) {
@@ -117,11 +107,12 @@ public class List {
 
             if (pos == 0) { // Agregar en la posición 0
                 newNode.setNext(front);
+                front.setPrev(newNode);
                 front = newNode;
             } else { // Agregar en cualquier otra posición
                 // Se recorren los nodos hasta el nodo anterior a la posición deseada
                 Node temp = front;
-                int nodesPos = 1;
+                int nodesPos = 0;
 
                 while (nodesPos < pos) {
                     temp = temp.getNext();
@@ -129,11 +120,13 @@ public class List {
                 }
 
                 // Se conecta el nuevo nodo en la posición deseada
-                newNode.setNext(temp.getNext());
-                temp.setNext(newNode);
+                newNode.setNext(temp);
+                newNode.setPrev(temp.getPrev());
+                temp.getPrev().setNext(newNode);
+                temp.setPrev(newNode);
             }
 
-            size++;
+//            size++;
         } else {
             throw new Exception(String.format("La posición ingresada no es una posición de inserción valida !!"));
         }
@@ -143,7 +136,7 @@ public class List {
     // Eliminar un elemento en la posición indicada
     // O(N)
     public void deleteAt(int pos) throws Exception {
-        int nodeCount = size;
+        int nodeCount = getSize();
 
         // Validar posición
         if ((pos >= 0) && (pos < nodeCount)) {
@@ -152,24 +145,30 @@ public class List {
                 empty();
             } else if (pos == 0) {
                 front = front.getNext();
-                size--;
+                front.setPrev(null);
+//                size--;
             } else {
                 // Se recorren los nodos hasta el nodo anterior a la posición deseada
                 Node temp = front;
-                int nodesPos = 1;
+                int nodesPos = 0;
 
                 while (nodesPos < pos) {
                     temp = temp.getNext();
                     nodesPos++;
                 }
 
-                temp.setNext(temp.getNext().getNext());
+                Node der = temp.getNext();
+                Node izq = temp.getPrev();
+                izq.setNext(der);
 
+                // Ultimo nodo
                 if (temp.getNext() == null) {
-                    back = temp;
+                    back = izq;
+                } else {
+                    der.setPrev(izq);
                 }
 
-                size--;
+//                size--;
             }
         } else {
             throw new Exception(String.format("La posición ingresada no es una posición de inserción valida !!"));
@@ -202,7 +201,8 @@ public class List {
     // Busca un posición y devuelve el valor en esa posición
     // O(N)
     public int findPos(int pos) throws Exception {
-        int nodeCount = size;
+//        int nodeCount = size;
+          int nodeCount = getSize();
 
         // Validar posición
         if ((pos >= 0) && (pos < nodeCount)) {
