@@ -3,15 +3,16 @@ package U2.P5;
 public class DoubleLinkedList {
     private Node front;
     private Node back;
+    private int size;
 
     public DoubleLinkedList() {
         front = null;
         back = null;
+        size = 0;
     }
 
     // Agregar un nodo al final de la lista
-    // BIG-OH: O(N) -> Antes
-    // BIG-OH: O(1) -> Agregando Back
+    // BIG-OH: O(1)
     // Por default se agrega al final
     public void add(int value) {
         Node newNode = new Node(value);
@@ -26,7 +27,7 @@ public class DoubleLinkedList {
             back = newNode;
         }
 
-//        size++;
+        size++;
     }
 
     // Devuelve los valores de la lista formateados
@@ -70,18 +71,22 @@ public class DoubleLinkedList {
     }
 
     // Devuelve el tamaño de la lista
-    // O(N)
+    // O(1)
     public int getSize() {
-        Node temp = front;
-        int count = 0;
-
-        while (temp != null) {
-            count++;
-            temp = temp.getNext();
-        }
-
-        return count;
+        return size;
     }
+    // O(N)
+//    public int getSize() {
+//        Node temp = front;
+//        int count = 0;
+//
+//        while (temp != null) {
+//            count++;
+//            temp = temp.getNext();
+//        }
+//
+//        return count;
+//    }
 
     // Devuelve si la lista esta vacia
     // O(1)
@@ -93,7 +98,7 @@ public class DoubleLinkedList {
     public void empty() {
         front = null;
         back = null;
-//        size = 0;
+        size = 0;
     }
 
     // Agregar un nodo en la posición deseada
@@ -126,7 +131,7 @@ public class DoubleLinkedList {
                 temp.setPrev(newNode);
             }
 
-//            size++;
+            size++;
         } else {
             throw new Exception(String.format("La posición ingresada no es una posición de inserción valida !!"));
         }
@@ -146,7 +151,7 @@ public class DoubleLinkedList {
             } else if (pos == 0) {
                 front = front.getNext();
                 front.setPrev(null);
-//                size--;
+                size--;
             } else {
                 // Se recorren los nodos hasta el nodo anterior a la posición deseada
                 Node temp = front;
@@ -168,7 +173,7 @@ public class DoubleLinkedList {
                     der.setPrev(izq);
                 }
 
-//                size--;
+                size--;
             }
         } else {
             throw new Exception(String.format("La posición ingresada no es una posición de inserción valida !!"));
