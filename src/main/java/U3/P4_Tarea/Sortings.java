@@ -162,17 +162,22 @@ public class Sortings {
     }
 
     public static void main(String[] args) {
+        System.out.println("Iniciando...");
         int[] sizes = new int[] { 10, 50, 100, 500, 1000, 5000, 10000, 100000, 1000000 };
+//        int[] sizes = new int[] { 10, 50, 100, 500, 1000, 5000, 10000 };
         Sort[] methods = new Sort[] { new SelectionSort(), new InsertionSort(), new BubbleSort(), new QuickSort() };
 
         for (int m = 0; m < methods.length; m++) {
             String data = String.format("%s %n", methods[m].getName());
+            System.out.println(String.format("Metodo %s", methods[m].getName()));
 
             for (int i = 0; i < sizes.length; i++) {
 
+                System.out.println(String.format("Tamaño de arreglo: %s", sizes[i]));
                 data += String.format("Tamaño de arreglo (%s) %n", sizes[i]);
                 for (int j = 1; j <= 10; j++) {
 
+                    System.out.println(String.format("Corrida %s", j));
                     int[] arr = new int[sizes[i]];
                     long s, e, time;
                     llenar(arr, sizes[i]);
@@ -188,7 +193,16 @@ public class Sortings {
 
             }
 
-            System.out.println(data);
+            try {
+                File file = new File(String.format(".%s%s", File.separator, methods[m].getFileName()));
+                FileWriter writer = new FileWriter(file);
+
+                writer.write(data);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
         }
     }
 
